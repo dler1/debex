@@ -1,0 +1,105 @@
+﻿<UserControl x:Class="Debex.Convert.Views.Controls.Sidebar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Debex.Convert.Views.Controls"
+             xmlns:sidebarControls="clr-namespace:Debex.Convert.Views.Controls.SidebarControls"
+             mc:Ignorable="d" 
+             x:Name="Self"
+             IsEnabled="{Binding IsEnabled}"
+           >
+    <StackPanel Orientation="Vertical">
+
+        <sidebarControls:OpenFileButton Click="OnSelectFileClick" FilePath="{Binding FilePath}"/>
+
+        <Border Background="Gray" Margin="0 10" Height="1"></Border>
+
+        <sidebarControls:SidebarMenuItem 
+            Click="NavigateMatch"
+            MainText="Сопоставить поля реестра"
+            AdditionalText="{Binding MatchItem.AdditionalText}"
+            IsSelected="{Binding MatchItem.IsSelected, Mode=TwoWay}"
+            CanSelect="{Binding MatchItem.CanSelect}"
+            CircleColor="{Binding MatchItem.CircleColor}"
+            IsChoosen="{Binding MatchItem.IsActive}"/>
+
+        <sidebarControls:SidebarMenuItem
+            Click="NavigateClearFormats"
+            MainText="Исправить форматы данных"
+            AdditionalText="{Binding CorrectFormatsItem.AdditionalText}"
+            IsSelected="{Binding CorrectFormatsItem.IsSelected, Mode=TwoWay}"
+            CanSelect="{Binding CorrectFormatsItem.CanSelect}"
+            IsChoosen="{Binding CorrectFormatsItem.IsActive}"
+            CircleColor="{Binding CorrectFormatsItem.CircleColor}"
+            
+            />
+
+        <sidebarControls:SidebarMenuItem
+            Click="NavigateRegionMatch"
+            MainText="{Binding RegionMatchItem.MainText}"
+            AdditionalText="{Binding RegionMatchItem.AdditionalText}"
+            IsSelected="{Binding RegionMatchItem.IsSelected, Mode=TwoWay}"
+            CanSelect="{Binding RegionMatchItem.CanSelect}"
+            IsChoosen="{Binding RegionMatchItem.IsActive}"
+            CircleColor="{Binding RegionMatchItem.CircleColor}"
+
+            />
+
+        <sidebarControls:SidebarMenuItem
+            Click="NavigateCalculate"
+            MainText="{Binding CalculateItem.MainText}"
+            AdditionalText="{Binding CalculateItem.AdditionalText}"
+            IsSelected="{Binding CalculateItem.IsSelected, Mode=TwoWay}"
+            CanSelect="{Binding CalculateItem.CanSelect}"
+            IsChoosen="{Binding CalculateItem.IsActive}"
+            CircleColor="{Binding CalculateItem.CircleColor}"
+
+            />
+
+        <sidebarControls:SidebarMenuItem
+            Click="NavigateToCheckFields"
+            MainText="{Binding CheckFieldsItem.MainText}"
+            AdditionalText="{Binding CheckFieldsItem.AdditionalText}"
+            IsSelected="{Binding CheckFieldsItem.IsSelected, Mode=TwoWay}"
+            CanSelect="{Binding CheckFieldsItem.CanSelect}"
+            IsChoosen="{Binding CheckFieldsItem.IsActive}"
+            CircleColor="{Binding CheckFieldsItem.CircleColor}"
+            
+            />
+
+        <Border Background="Gray" Margin="0 20" Height="1"></Border>
+
+        <Grid Margin="5 10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Padding="0" Grid.Column="0" Margin="5 0" FontSize="30" FontWeight="Bold" Foreground="LightGray" Content="2"/>
+
+            <Button Grid.Column="1" Background="{StaticResource Blue}" Padding="0" HorizontalAlignment="Stretch" Click="RunAll">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <Image VerticalAlignment="Center" HorizontalAlignment="Center" Width="25" SnapsToDevicePixels="False" Source="/Assets/Icons/play.png"></Image>
+                    <Label VerticalAlignment="Center" Foreground="White" FontSize="14">Запустить обработку</Label>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Grid Margin="5 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" Padding="0" Margin="5 0" FontSize="30" FontWeight="Bold" Foreground="LightGray" Content="3"/>
+            <Button Click="SaveClick" BorderBrush="Black" Background="White" Grid.Column="1">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <Image VerticalAlignment="Center" HorizontalAlignment="Center" Width="25" SnapsToDevicePixels="False" Source="/Assets/Icons/save.png"></Image>
+                    <Label>Скачать готовый реестр</Label>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+    </StackPanel>
+</UserControl>

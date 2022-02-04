@@ -1,0 +1,116 @@
+﻿<Page x:Class="Debex.Convert.Views.Pages.ClearFormatsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Debex.Convert.Views.Pages"
+      xmlns:data="clr-namespace:Debex.Convert.Data"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ClearFormatsPage">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <Style TargetType="TextBlock" x:Key="GridRow">
+                <Setter Property="Padding" Value="2 5"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="TextAlignment" Value="Center"/>
+            </Style>
+
+            <Style TargetType="TextBlock" BasedOn="{StaticResource GridRow}" x:Key="HeaderRow">
+                <Setter Property="Foreground" Value="{StaticResource DarkGray}"/>
+                <Setter Property="Padding" Value="2 2"/>
+                <Setter Property="FontSize" Value="12"/>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+
+
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label Style="{StaticResource Header}">Исправить форматы данных</Label>
+            <StackPanel VerticalAlignment="Center" Background="{StaticResource SelectedGray}">
+                <Image PreviewMouseLeftButtonDown="RefreshClick" Width="20" Height="20" Margin="5 3 5 0" Source="/Assets/Icons/refresh.png"></Image>
+            </StackPanel>
+        </StackPanel>
+
+        <Grid Margin="0 5" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MaxWidth="600"/>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Style="{StaticResource HeaderRow}" Text="Название" />
+            <TextBlock Grid.Column="1" Style="{StaticResource HeaderRow}" Text="Всего ячеек" />
+            <TextBlock Grid.Column="2" Style="{StaticResource HeaderRow}" Text="Заполнено"/>
+            <TextBlock Grid.Column="3" Style="{StaticResource HeaderRow}" Text="Пустые"/>
+            <TextBlock Grid.Column="4" Style="{StaticResource HeaderRow}" Text="Исправлено"/>
+            <TextBlock Grid.Column="5" Style="{StaticResource HeaderRow}" Text="Ошибки формы" TextWrapping="Wrap"/>
+
+        </Grid>
+
+        <Border Grid.Row="2" BorderThickness="1" BorderBrush="{StaticResource SelectedGray}" Margin="0 10"/>
+
+        <ScrollViewer Grid.Row="3" CanContentScroll="True">
+
+
+            <ItemsControl ItemsSource="{Binding State}" ScrollViewer.CanContentScroll="True" >
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type data:CleanFieldState}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" MaxWidth="600"/>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Style="{StaticResource GridRow}" TextAlignment="Left" Text="{Binding Name}" FontWeight="Bold"/>
+                            <TextBlock Style="{StaticResource GridRow}" Grid.Column="1" Text="{Binding Total}"/>
+                            <TextBlock Style="{StaticResource GridRow}" Grid.Column="2" Text="{Binding Filled}"/>
+                            <TextBlock Style="{StaticResource GridRow}" Grid.Column="3" Text="{Binding Empty}"/>
+                            <TextBlock Style="{StaticResource GridRow}" Grid.Column="4" Text="{Binding Corrected}" 
+                                       Cursor="Hand"
+                                       MouseLeftButtonDown="OnCorrectedClick" TextDecorations="Underline"/>
+                            <TextBlock Style="{StaticResource GridRow}" Grid.Column="5" Text="{Binding Errors}"
+                                       Cursor="Hand"
+                                       TextDecorations="Underline"
+                                       PreviewMouseLeftButtonDown="OnErrorClick">
+                                <TextBlock.Foreground>
+                                    <Binding  Path="Errors" Converter="{StaticResource PositiveIntToColorConverter}">
+                                        <Binding.ConverterParameter>
+                                            <x:Array Type="Brush">
+                                                <StaticResource ResourceKey="Green"/>
+                                                <StaticResource ResourceKey="Red"/>
+                                            </x:Array>
+                                        </Binding.ConverterParameter>
+                                    </Binding>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+    </Grid>
+</Page>

@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Debex.Convert.Views.Controls.FieldsMatchingPageControls.FileFieldsList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Debex.Convert.Views.Controls.FieldsMatchingPageControls"
+             xmlns:data="clr-namespace:Debex.Convert.Data"
+             mc:Ignorable="d" 
+             Name="Self"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <ItemsControl ItemsSource="{Binding ElementName=Self, Path=FileFields}">
+        <ItemsControl.Background>
+            <Binding ElementName="Self" Path="IsSelected" Converter="{StaticResource BooleanToColorConverter}">
+                <Binding.ConverterParameter>
+                    <x:Array Type="Brush">
+                        <StaticResource ResourceKey="SelectedGray"></StaticResource>
+                        <SolidColorBrush Color="Transparent"></SolidColorBrush>
+                    </x:Array>
+                </Binding.ConverterParameter>
+            </Binding>
+        </ItemsControl.Background>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="{x:Type data:FileFieldToMatch}">
+                <local:FileField Click="FileFieldClick"
+                                 IsHighlighted="{Binding IsHighlighted}"
+                                 IsSelected="{Binding IsSelected}" IsMatched="{Binding IsMatched}" FieldName="{Binding Name}"></local:FileField>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</UserControl>

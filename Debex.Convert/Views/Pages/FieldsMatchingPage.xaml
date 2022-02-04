@@ -1,0 +1,102 @@
+﻿<Page x:Class="Debex.Convert.Views.Pages.FieldsMatchingPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:Debex.Convert.Views.Pages"
+      xmlns:fieldsMatchingPageControls="clr-namespace:Debex.Convert.Views.Controls.FieldsMatchingPageControls"
+      mc:Ignorable="d"
+      Title="FieldsMatchingPage" x:Name="Page">
+
+    <Grid IsEnabled="{Binding IsEnabled}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="6*" />
+            <ColumnDefinition Width="4*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
+            <Label Style="{StaticResource Header}"
+                   VerticalAlignment="Bottom"
+                   Content="Сопоставление полей"
+                   />
+
+
+            <TextBlock VerticalAlignment="Bottom" Cursor="Hand" Margin="10 10" TextDecorations="Underline"
+                       PreviewMouseLeftButtonDown="SaveAsClick">
+                Сохранить как
+            </TextBlock>
+            <TextBlock VerticalAlignment="Bottom"
+                       IsEnabled="{Binding ConfigurationFilePath, Converter={StaticResource NullToBooleanConverter}}"
+                       PreviewMouseLeftButtonDown="SaveClick"
+                       Cursor="Hand" Margin="10 10" TextDecorations="Underline"
+                       Text="Сохранить">
+
+                <TextBlock.Foreground>
+                    <Binding Path="ConfigurationFilePath" Converter="{StaticResource NullToColorConverter}">
+                        <Binding.ConverterParameter>
+                            <x:Array Type="Brush">
+                                <SolidColorBrush Color="Black" />
+                                <StaticResource ResourceKey="DarkGray" />
+                            </x:Array>
+                        </Binding.ConverterParameter>
+                    </Binding>
+                </TextBlock.Foreground>
+            </TextBlock>
+            <TextBlock VerticalAlignment="Bottom" Cursor="Hand" Margin="10 10" TextDecorations="Underline"
+                       PreviewMouseLeftButtonDown="OpenConfigurationClick">
+                Открыть
+            </TextBlock>
+
+            <TextBlock VerticalAlignment="Bottom" Cursor="Hand" Margin="10 10" TextDecorations="Underline"
+                       PreviewMouseLeftButtonDown="MatchAuto">
+                Сопоставить автоматически
+            </TextBlock>
+
+            
+        </StackPanel>
+
+
+        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+
+            <Label FontSize="20" FontWeight="Bold">Системные названия</Label>
+            <Image Margin="10 0" Source="/Assets/Icons/LongArrowLeft.png" />
+
+            <TextBlock Style="{StaticResource BaseText}"
+                       TextWrapping="Wrap"
+                       Width="200"
+                       VerticalAlignment="Center"
+                       TextAlignment="Center">
+                Для сопоставления выберите поле в правом или левом столбце
+            </TextBlock>
+
+            <Image Margin="10 0" Source="/Assets/Icons/LongArrowRight.png" />
+
+            <Label FontSize="20" FontWeight="Bold">Поля в файле</Label>
+        </StackPanel>
+
+        <ScrollViewer Margin="0 0 0 0" Style="{StaticResource LeftScrollViewer}" Grid.Column="0"
+                      Grid.Row="2">
+
+            <fieldsMatchingPageControls:FieldsList OnFieldChange="OnFieldChange"
+                                                   FieldSelected="BaseFieldSelected"
+                                                   FieldsToMatch="{Binding Path=BaseFields}"
+                                                   IsSelected="{Binding Path=IsFileSelected}" />
+        </ScrollViewer>
+
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" Grid.Row="2" 
+                      Grid.Column="1">
+
+
+            <fieldsMatchingPageControls:FileFieldsList
+                IsSelected="{Binding IsBaseFieldSelected}"
+                FieldSelected="FileFieldSelected"
+                FileFields="{Binding Path=FileFields}" />
+        </ScrollViewer>
+
+    </Grid>
+
+</Page>

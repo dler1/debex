@@ -1,0 +1,177 @@
+﻿<UserControl x:Class="Debex.Convert.Views.Controls.FieldsMatchingPageControls.MatchingField"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Debex.Convert.Views.Controls.FieldsMatchingPageControls"
+             mc:Ignorable="d" 
+             x:Name="Self"
+             >
+    <Grid  Cursor="Hand">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.Background>
+            <Binding ElementName="Self" Path="IsSelected" Mode="OneWay" Converter="{StaticResource BooleanToColorConverter}">
+                <Binding.ConverterParameter>
+                    <x:Array Type="Brush">
+                        <StaticResource ResourceKey="SelectedGray"></StaticResource>
+                        <SolidColorBrush Color="Transparent"></SolidColorBrush>
+                    </x:Array>
+                </Binding.ConverterParameter>
+
+            </Binding>
+        </Grid.Background>
+
+        <StackPanel Orientation="Horizontal" Margin="10 5" 
+                   Grid.Column="1" 
+                    PreviewMouseLeftButtonDown="OnClick"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center">
+
+            <TextBlock 
+                TextAlignment="Left"
+                MaxWidth="300"
+                   Style="{StaticResource BaseText}"
+                   Text="{Binding ElementName=Self, Path=FieldText}" >
+                <TextBlock.Foreground>
+                    <Binding ElementName="Self" Path="MatchedFieldText" Converter="{StaticResource NullToColorConverter}">
+                        <Binding.ConverterParameter>
+                            <x:Array Type="Brush">
+                                <StaticResource ResourceKey="Green"></StaticResource>
+                                <SolidColorBrush Color="Black"></SolidColorBrush>
+                            </x:Array>
+                        </Binding.ConverterParameter>
+                    </Binding>
+                </TextBlock.Foreground>
+            </TextBlock>
+            <TextBlock Style="{StaticResource BaseText}"
+                       Foreground="{StaticResource Red}" 
+                       FontSize="10"
+
+                       Margin="1 0 0 0"
+                       FontWeight="Bold"
+                       Visibility="{Binding ElementName=Self, Path=Required, Converter={StaticResource BooleanToVisibilityConverter}}"
+            >🞶</TextBlock>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2"  Background="Transparent"
+                    PreviewMouseLeftButtonDown="OnClick"
+
+        ></StackPanel>
+        <Border 
+                    PreviewMouseLeftButtonDown="OnClick"
+                    Grid.Column="2"   BorderThickness="0 0 0 1" Margin="10 0 10 0">
+
+            <Border.BorderBrush>
+                <Binding ElementName="Self" Path="MatchedFieldText" Converter="{StaticResource NullToColorConverter}">
+                    <Binding.ConverterParameter>
+                        <x:Array Type="Brush">
+
+                            <DrawingBrush Viewport="0,0,4,4" ViewportUnits="Absolute" TileMode="Tile">
+                                <DrawingBrush.Drawing>
+                                    <DrawingGroup>
+                                        <GeometryDrawing Brush="{StaticResource DarkGray}">
+                                            <GeometryDrawing.Geometry>
+                                                <GeometryGroup>
+                                                    <RectangleGeometry Rect="0,0,5,5" />
+                                                    <RectangleGeometry Rect="10,10,10,10" />
+                                                </GeometryGroup>
+                                            </GeometryDrawing.Geometry>
+                                        </GeometryDrawing>
+                                    </DrawingGroup>
+                                </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                            <SolidColorBrush Color="Transparent"></SolidColorBrush>
+                        </x:Array>
+                    </Binding.ConverterParameter>
+                </Binding>
+            </Border.BorderBrush>
+        </Border>
+
+        <Grid Grid.Column="3" 
+              Visibility="{Binding ElementName=Self, Path=IsSelected, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=true}"
+              >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock   Style="{StaticResource BaseText}" 
+                         PreviewMouseLeftButtonDown="OnClick"
+                         Grid.Column="0"
+                         Margin="5 0 0 0"  VerticalAlignment="Center"  Text="{Binding MatchedFieldText, ElementName=Self}" >
+                <TextBlock.Foreground>
+                    <Binding ElementName="Self" Path="MatchedFieldText" Converter="{StaticResource NullToColorConverter}">
+                        <Binding.ConverterParameter>
+                            <x:Array Type="Brush">
+                                <StaticResource ResourceKey="Green"></StaticResource>
+                                <SolidColorBrush Color="Black"></SolidColorBrush>
+                            </x:Array>
+                        </Binding.ConverterParameter>
+                    </Binding>
+                </TextBlock.Foreground>
+            </TextBlock>
+
+            <Button
+                Margin="5 0 0 0"
+                Grid.Column="1"
+                Click="OnChangeClick"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                
+                Foreground="{StaticResource DarkGray}"
+                Visibility="{Binding ElementName=Self, Path=MatchedFieldText, Converter={StaticResource NullToVisibilityConverter}}"
+                VerticalAlignment="Center"
+            >Изменить</Button>
+        </Grid>
+
+        <!--<StackPanel Grid.Column="3" Margin="5 0"
+                    Orientation="Horizontal"
+
+                    >
+
+            <TextBlock   Style="{StaticResource BaseText}" 
+                         PreviewMouseLeftButtonDown="OnClick"
+                         MaxWidth="200"
+                         Margin="5 0 0 0"  VerticalAlignment="Center"  Text="{Binding MatchedFieldText, ElementName=Self}" >
+                <TextBlock.Foreground>
+                    <Binding ElementName="Self" Path="MatchedFieldText" Converter="{StaticResource NullToColorConverter}">
+                        <Binding.ConverterParameter>
+                            <x:Array Type="Brush">
+                                <StaticResource ResourceKey="Green"></StaticResource>
+                                <SolidColorBrush Color="Black"></SolidColorBrush>
+                            </x:Array>
+                        </Binding.ConverterParameter>
+                    </Binding>
+                </TextBlock.Foreground>
+            </TextBlock>
+
+     
+
+            --><!--<TextBlock  
+                Margin="13 0 0 0"
+                TextDecorations="Underline"
+                Foreground="{StaticResource DarkGray}"
+                Visibility="{Binding ElementName=Self, Path=MatchedFieldText, Converter={StaticResource NullToVisibilityConverter}}"
+                VerticalAlignment="Center">Изменить</TextBlock>--><!--
+        </StackPanel>-->
+
+        <StackPanel Grid.Column="3" 
+                    Orientation="Horizontal" 
+                    Margin="10 0 " 
+                    Height="35"
+                    Visibility="{Binding ElementName=Self, Path=IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+            <TextBlock VerticalAlignment="Center" Foreground="{StaticResource DarkGray}" 
+                       Style="{StaticResource BaseText}" Margin="0" Padding="0" FontWeight="Bold" Text="Выберите значение справа"></TextBlock>
+            <TextBlock VerticalAlignment="Center" Foreground="{StaticResource DarkGray}" 
+                       Style="{StaticResource BaseText}" Margin="0 0 0 6" Padding="0" FontWeight="Bold" FontSize="40" Text=" →"></TextBlock>
+
+        </StackPanel>
+    </Grid>
+</UserControl>
